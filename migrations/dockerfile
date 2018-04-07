@@ -1,0 +1,18 @@
+FROM openjdk:8
+
+RUN apt-get update
+
+# Needed for check that we can connect to the database
+RUN apt-get install netcat-openbsd -y
+
+RUN wget -O /flyway.tar.gz https://repo1.maven.org/maven2/org/flywaydb/flyway-commandline/5.0.6/flyway-commandline-5.0.6-linux-x64.tar.gz
+
+RUN tar -xzf /flyway.tar.gz && rm /flyway.tar.gz && mv /flyway-5.0.6 /flyway
+
+RUN ln -s /flyway/flyway /usr/local/bin/flyway
+
+COPY . /opt/app
+
+WORKDIR /flyway
+
+ENTRYPOINT /opt/app/entrypoint.sh

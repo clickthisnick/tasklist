@@ -1,0 +1,39 @@
+version: '2'
+services:
+
+  frontend:
+    build: frontend
+    image: frontend:latest
+    ports:
+      - 80:80
+    links:
+      - backend:backend
+
+  backend:
+    build: backend
+    image: backend:latest
+    ports:
+      - 8888:80
+    links:
+      - mariadb:mariadb
+
+  migrations:
+    build: migrations
+    image: migrations:latest
+    environment:
+      # https://flywaydb.org/documentation/envvars
+      - FLYWAY_USER=root
+      - FLYWAY_PASSWORD=password
+      - FLYWAY_DRIVER=org.mariadb.jdbc.Driver
+      - FLYWAY_LOCATIONS=filesystem:/opt/app/sql
+      - FLYWAY_URL=jdbc:mariadb://mariadb:3306
+      - FLYWAY_SCHEMAS=tasklist-schema
+    links:
+      - mariadb:mariadb
+
+  mariadb:
+    image: mariadb:10.2.12
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+    ports:
+      - 3306:3306
