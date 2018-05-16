@@ -1,5 +1,7 @@
 ## Installation:
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/clickthisnick/tasklist.svg)](https://greenkeeper.io/)
+
 1.) Create a new IAM role only for aws docker registry and give `AmazonEC2ContainerRegistryPowerUser`
 
 2.) Configure your local computer to use the new aws role `aws configure`
