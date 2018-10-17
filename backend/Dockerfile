@@ -1,11 +1,8 @@
-FROM node:8.9.4-alpine
-
-# https://blog.packagecloud.io/eng/2017/02/21/set-environment-variable-save-thousands-of-system-calls/
-ENV TZ=:/usr/share/zoneinfo/GMT
-
-# All the source node later
-COPY . /opt/app
-
-# Install the npm packages
-# http://stackoverflow.com/questions/13498403/npm-install-dependencies-for-a-package-in-a-different-folder
-RUN npm --prefix /opt/app install /opt/app
+ FROM python:3
+ ENV PYTHONUNBUFFERED 1
+ RUN mkdir /code
+ WORKDIR /code
+ COPY requirements.txt /code/
+ RUN pip install -r requirements.txt
+ RUN apt-get update && apt-get install netcat-openbsd -y
+ COPY . /code/

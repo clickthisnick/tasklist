@@ -12,8 +12,11 @@ services:
   backend:
     build: backend
     image: backend:latest
+    command: bash entrypoint.sh
+    volumes:
+      - ./backend:/code
     ports:
-      - 8888:80
+      - "8000:8000"
     links:
       - mariadb:mariadb
 
